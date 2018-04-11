@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+						http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+        
+<bean id="dsd" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></property>
+<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"></property>
+<property name="username" value="PROJECT"></property>
+<property name="password" value="12345"></property>
+</bean>
+
+
+<bean id="MySessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+<property name="dataSource" ref="dsd"></property>
+<property name="annotatedClasses">
+<list>
+<value>master.controller.Product_Details</value>
+<value>master.controller.Supplier_Details</value>
+<value>master.controller.Customer_Details</value>
+<value>master.controller.Showroom_Details</value>
+<value>master.controller.Port_Details</value>
+<value>master.controller.Transport_Details</value>
+<value>master.controller.Warehouse_Details</value>
+<value>master.controller.Vessel_Details</value>
+</list>
+</property>
+  
+<property name="hibernateProperties">
+<props> 
+ <prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>  
+                <prop key="hibernate.hbm2ddl.auto">update</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
+</props>
+</property>
+</bean>
+<bean id="template" class="org.springframework.orm.hibernate3.HibernateTemplate">  <!-- supplied class with properties -->
+    	<property name="sessionFactory" ref="MySessionFactory"></property>  
+</bean> 
+    
+<bean id="sdao" class="master.controller.SupplierDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean> 
+
+<bean id="pdao" class="master.controller.ProductDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean>
+
+<bean id="tdao" class="master.controller.TransportDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean>
+
+<bean id="cdao" class="master.controller.CustomerDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean> 
+
+<bean id="shdao" class="master.controller.ShowroomDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean>
+
+<bean id="ptdao" class="master.controller.PortDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean>
+
+<bean id="wdao" class="master.controller.WarehouseDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean> 
+
+<bean id="vdao" class="master.controller.VesselDAO">
+<property name="hibernatetemplate" ref="template"></property>
+</bean> 
+</beans>
+
+
+
